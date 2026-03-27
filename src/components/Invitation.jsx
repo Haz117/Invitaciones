@@ -131,7 +131,7 @@ export default function Invitation() {
           </div>
 
           <p className="text-[10px] tracking-[5px] uppercase font-bold mb-4" style={{ color: 'rgba(90,53,80,.55)' }}>
-            Estás invitada · invitado
+            Tienes una invitación especial
           </p>
 
           {/* Cápsula nombre */}
