@@ -77,15 +77,6 @@ export default function Invitation() {
       const dataUrl = await toPng(cardRef.current, opts)
 
       const blob = dataUrlToBlob(dataUrl)
-      const file = new File([blob], fileName, { type: 'image/png' })
-
-      // En móvil con soporte de share de archivos
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: 'Invitación Zoe Ximena' })
-        return
-      }
-
-      // Desktop y Android sin share API
       const url  = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href     = url
