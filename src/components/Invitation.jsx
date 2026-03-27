@@ -28,20 +28,49 @@ function useCountdown(target) {
 }
 
 export default function Invitation() {
-  const cardRef      = useRef(null)
-  const [downloading, setDownloading] = useState(false)
-  const countdown    = useCountdown(PARTY_DATE)
+  const cardRef        = useRef(null)
+  const inputRef       = useRef(null)
+  const [downloading, setDownloading]   = useState(false)
+  const [showModal,   setShowModal]     = useState(false)
+  const [guestName,   setGuestName]     = useState('')
+  const [tempName,    setTempName]      = useState('')
+  const countdown = useCountdown(PARTY_DATE)
 
-  /* Descargar como imagen */
+  /* Abre el modal para pedir el nombre */
+  const openDownloadModal = () => {
+    setTempName(guestName)
+    setShowModal(true)
+    setTimeout(() => inputRef.current?.focus(), 100)
+  }
+
+  /* Confirma el nombre y descarga */
   const handleDownload = async () => {
+    setGuestName(tempName)
+    setShowModal(false)
+    // Espera a que React actualice el DOM con el nombre
+    await new Promise(r => setTimeout(r, 300))
     if (!cardRef.current) return
     setDownloading(true)
     try {
+      await document.fonts.ready
       const canvas = await html2canvas(cardRef.current, {
-        scale: 3, useCORS: true, backgroundColor: null, logging: false,
+        scale: 3,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#fff8f2',
+        logging: false,
+        onclone: (doc) => {
+          // Asegura que las fuentes estén cargadas en el clon
+          doc.querySelectorAll('*').forEach(el => {
+            el.style.fontDisplay = 'block'
+          })
+        },
       })
       const link = document.createElement('a')
-      link.download = 'invitacion-zoe-ximena.png'
+      const fileName = tempName
+        ? `invitacion-zoe-${tempName.toLowerCase().replace(/\s+/g, '-')}.png`
+        : 'invitacion-zoe-ximena.png'
+      link.download = fileName
       link.href = canvas.toDataURL('image/png')
       link.click()
     } finally {
@@ -116,7 +145,10 @@ export default function Invitation() {
               color: '#5a3550',
             }}
           >
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {guestName
+              ? guestName
+              : <span style={{ color: 'rgba(90,53,80,.3)', fontStyle: 'italic' }}>Tu nombre aquí</span>
+            }
           </div>
 
           {/* Foto de Zoe */}
@@ -294,7 +326,7 @@ export default function Invitation() {
 
         {/* Descargar */}
         <ActionBtn
-          onClick={handleDownload}
+          onClick={openDownloadModal}
           disabled={downloading}
           gradient="linear-gradient(135deg,#f4a7be,#d8b4e2)"
           shadow="rgba(244,167,190,.45)"
@@ -328,6 +360,71 @@ export default function Invitation() {
         </ActionBtn>
 
       </div>
+
+      {/* ═══════════ MODAL NOMBRE ═══════════ */}
+      {showModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center px-6"
+          style={{ background: 'rgba(90,53,80,.45)', backdropFilter: 'blur(6px)' }}
+          onClick={(e) => e.target === e.currentTarget && setShowModal(false)}
+        >
+          <div
+            className="w-full max-w-xs rounded-3xl overflow-hidden animate-fadeUp"
+            style={{ background: '#fff8f2', boxShadow: '0 20px 60px rgba(180,100,130,.3)' }}
+          >
+            {/* Header modal */}
+            <div
+              className="px-6 pt-6 pb-4 text-center"
+              style={{ background: 'linear-gradient(135deg,#fde0ea,#f4a7be)' }}
+            >
+              <p className="font-script text-3xl text-texto">¿Cuál es tu nombre?</p>
+              <p className="text-xs text-texto/60 mt-1 tracking-wide">
+                Aparecerá en tu invitación personalizada
+              </p>
+            </div>
+
+            {/* Input */}
+            <div className="px-6 py-5">
+              <input
+                ref={inputRef}
+                type="text"
+                value={tempName}
+                onChange={(e) => setTempName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleDownload()}
+                placeholder="Escribe tu nombre..."
+                className="w-full rounded-2xl px-4 py-3 text-center font-display italic text-lg outline-none"
+                style={{
+                  background: 'linear-gradient(135deg,#fde0ea,#fce8f2)',
+                  border: '1.5px solid #f4b8cc',
+                  color: '#5a3550',
+                }}
+              />
+
+              <div className="flex gap-3 mt-4">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="flex-1 py-3 rounded-2xl font-bold text-sm transition-all active:scale-95"
+                  style={{ background: '#f5e8da', color: '#9a7a8e' }}
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleDownload}
+                  className="flex-1 py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95"
+                  style={{
+                    background: 'linear-gradient(135deg,#f4a7be,#d8b4e2)',
+                    color: '#5a3550',
+                    boxShadow: '0 4px 16px rgba(244,167,190,.4)',
+                  }}
+                >
+                  <DownloadIcon />
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   )
