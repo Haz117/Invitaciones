@@ -43,46 +43,60 @@ export default function Invitation() {
     setTimeout(() => inputRef.current?.focus(), 100)
   }
 
+  /* Convierte dataURL a Blob sin usar fetch */
+  const dataUrlToBlob = (dataUrl) => {
+    const [header, data] = dataUrl.split(',')
+    const mime = header.match(/:(.*?);/)[1]
+    const bytes = atob(data)
+    const arr = new Uint8Array(bytes.length)
+    for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i)
+    return new Blob([arr], { type: mime })
+  }
+
   /* Confirma el nombre y descarga */
   const handleDownload = async () => {
     setGuestName(tempName)
     setShowModal(false)
-    // Espera a que React actualice el DOM con el nombre
-    await new Promise(r => setTimeout(r, 300))
+    await new Promise(r => setTimeout(r, 400))
     if (!cardRef.current) return
     setDownloading(true)
     try {
-      await document.fonts.ready
-
       const fileName = tempName
         ? `invitacion-zoe-${tempName.toLowerCase().replace(/\s+/g, '-')}.png`
         : 'invitacion-zoe-ximena.png'
 
-      // Llamar dos veces: la primera carga fuentes/recursos, la segunda captura bien
-      await toPng(cardRef.current, { pixelRatio: 3 })
-      const dataUrl = await toPng(cardRef.current, {
-        pixelRatio: 3,
+      const opts = {
+        pixelRatio: 2,
         backgroundColor: '#fff8f2',
-      })
+        skipFonts: true,   // evita el fetch CORS de Google Fonts — las fuentes ya están renderizadas
+        cacheBust: true,
+      }
 
-      const blob = await (await fetch(dataUrl)).blob()
+      // Dos llamadas: la primera precalienta el cache de recursos, la segunda captura bien
+      await toPng(cardRef.current, opts)
+      const dataUrl = await toPng(cardRef.current, opts)
+
+      const blob = dataUrlToBlob(dataUrl)
       const file = new File([blob], fileName, { type: 'image/png' })
 
+      // En móvil con soporte de share de archivos
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], title: 'Invitación Zoe Ximena' })
-      } else {
-        const url  = URL.createObjectURL(blob)
-        const link = document.createElement('a')
-        link.href     = url
-        link.download = fileName
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        setTimeout(() => URL.revokeObjectURL(url), 1000)
+        return
       }
+
+      // Desktop y Android sin share API
+      const url  = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href     = url
+      link.download = fileName
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+
     } catch (err) {
-      alert('No se pudo generar la imagen, intenta de nuevo.')
-      console.error(err)
+      alert('Error al generar: ' + err.message)
     } finally {
       setDownloading(false)
     }
