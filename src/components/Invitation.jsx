@@ -34,7 +34,10 @@ export default function Invitation() {
   const [showModal,   setShowModal]     = useState(false)
   const [guestName,   setGuestName]     = useState('')
   const [tempName,    setTempName]      = useState('')
+  const [previewImg,  setPreviewImg]    = useState(null)
   const countdown = useCountdown(PARTY_DATE)
+
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 
   /* Abre el modal para pedir el nombre */
   const openDownloadModal = () => {
@@ -66,13 +69,21 @@ export default function Invitation() {
           })
         },
       })
-      const link = document.createElement('a')
-      const fileName = tempName
-        ? `invitacion-zoe-${tempName.toLowerCase().replace(/\s+/g, '-')}.png`
-        : 'invitacion-zoe-ximena.png'
-      link.download = fileName
-      link.href = canvas.toDataURL('image/png')
-      link.click()
+      const dataUrl = canvas.toDataURL('image/png')
+
+      if (isMobile) {
+        // En móvil: mostrar imagen en modal para guardar con mantener presionado
+        setPreviewImg(dataUrl)
+      } else {
+        // En desktop: descarga directa
+        const fileName = tempName
+          ? `invitacion-zoe-${tempName.toLowerCase().replace(/\s+/g, '-')}.png`
+          : 'invitacion-zoe-ximena.png'
+        const link = document.createElement('a')
+        link.download = fileName
+        link.href = dataUrl
+        link.click()
+      }
     } finally {
       setDownloading(false)
     }
@@ -360,6 +371,31 @@ export default function Invitation() {
         </ActionBtn>
 
       </div>
+
+      {/* ═══════════ MODAL PREVIEW IMAGEN (móvil) ═══════════ */}
+      {previewImg && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center px-4 gap-4"
+          style={{ background: 'rgba(90,53,80,.7)', backdropFilter: 'blur(8px)' }}
+        >
+          <p className="text-white font-bold text-sm tracking-wide text-center">
+            Mantén presionada la imagen para guardarla
+          </p>
+          <img
+            src={previewImg}
+            alt="Invitación"
+            className="w-full max-w-xs rounded-2xl"
+            style={{ boxShadow: '0 8px 40px rgba(0,0,0,.4)' }}
+          />
+          <button
+            onClick={() => setPreviewImg(null)}
+            className="mt-2 px-8 py-3 rounded-2xl font-bold text-sm"
+            style={{ background: 'rgba(255,255,255,.2)', color: 'white', border: '1.5px solid rgba(255,255,255,.4)' }}
+          >
+            Cerrar
+          </button>
+        </div>
+      )}
 
       {/* ═══════════ MODAL NOMBRE ═══════════ */}
       {showModal && (
