@@ -70,7 +70,15 @@ export default function Invitation() {
         ? `invitacion-zoe-${tempName.toLowerCase().replace(/\s+/g, '-')}.png`
         : 'invitacion-zoe-ximena.png'
 
-      canvas.toBlob((blob) => {
+      // Convertir canvas a Blob de forma asíncrona
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
+
+      // Intentar compartir como archivo (funciona en iOS 15+ y Android Chrome)
+      const file = new File([blob], fileName, { type: 'image/png' })
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'Invitación Zoe Ximena' })
+      } else {
+        // Fallback: descarga directa con blob URL
         const url  = URL.createObjectURL(blob)
         const link = document.createElement('a')
         link.href     = url
@@ -78,8 +86,8 @@ export default function Invitation() {
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
-        URL.revokeObjectURL(url)
-      }, 'image/png')
+        setTimeout(() => URL.revokeObjectURL(url), 1000)
+      }
     } finally {
       setDownloading(false)
     }
