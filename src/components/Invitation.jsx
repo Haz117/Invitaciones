@@ -1,168 +1,251 @@
-export default function Invitation() {
-  return (
-    <div className="animate-fadeUp relative z-10 w-full max-w-sm mx-auto">
+import { useRef, useState } from 'react'
+import html2canvas from 'html2canvas'
 
-      {/* Tarjeta */}
+const MAPS_URL =
+  'https://www.google.com/maps/search/?api=1&query=Calle+Texcaltitlapa+Col+Cuauhtemoc+Santiago+Tezontlale'
+
+export default function Invitation() {
+  const cardRef  = useRef(null)
+  const [downloading, setDownloading] = useState(false)
+
+  const handleDownload = async () => {
+    if (!cardRef.current) return
+    setDownloading(true)
+    try {
+      const canvas = await html2canvas(cardRef.current, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: null,
+        logging: false,
+      })
+      const link = document.createElement('a')
+      link.download = 'invitacion-zoe-ximena.png'
+      link.href = canvas.toDataURL('image/png')
+      link.click()
+    } finally {
+      setDownloading(false)
+    }
+  }
+
+  return (
+    <div className="animate-fadeUp relative z-10 w-full max-w-sm mx-auto flex flex-col gap-4">
+
+      {/* ═══════════════ TARJETA ═══════════════ */}
       <div
+        ref={cardRef}
         className="rounded-3xl overflow-hidden"
         style={{
           background: '#fff8f2',
-          boxShadow: '0 4px 0 #f4a7be, 0 8px 0 #fde0ea, 0 16px 60px rgba(180,100,130,.18)',
+          boxShadow: '0 4px 0 #f4a7be, 0 8px 0 #fde0ea, 0 20px 70px rgba(180,100,130,.2)',
         }}
       >
 
         {/* ── Header ── */}
         <div
-          className="relative px-8 pt-10 pb-14 text-center"
+          className="relative px-8 pt-10 pb-16 text-center"
           style={{
             background: 'linear-gradient(160deg, #fde0ea 0%, #f4a7be 55%, #d8b4e2 100%)',
           }}
         >
-          {/* Flores SVG decorativas */}
-          <FloresSVG className="absolute top-4 left-5 opacity-30 w-10" />
-          <FloresSVG className="absolute top-4 right-5 opacity-30 w-10 scale-x-[-1]" />
+          {/* Flores esquinas */}
+          <FloresSVG className="absolute top-3 left-4 opacity-25 w-12" />
+          <FloresSVG className="absolute top-3 right-4 opacity-25 w-12 scale-x-[-1]" />
+          <FloresSVG className="absolute bottom-8 left-2 opacity-15 w-8" />
+          <FloresSVG className="absolute bottom-8 right-2 opacity-15 w-8 scale-x-[-1]" />
+
+          {/* Línea decorativa superior */}
+          <div className="flex items-center gap-2 mb-5 opacity-40">
+            <div className="flex-1 h-px bg-white/70" />
+            <DiamondSVG color="white" size={8} />
+            <div className="flex-1 h-px bg-white/70" />
+          </div>
 
           <p
-            className="text-xs tracking-[4px] uppercase font-bold mb-3"
-            style={{ color: 'rgba(90,53,80,.6)' }}
+            className="text-[10px] tracking-[5px] uppercase font-bold mb-4"
+            style={{ color: 'rgba(90,53,80,.55)' }}
           >
             Estás invitada · invitado
           </p>
 
-          {/* Nombre del invitado — placeholder */}
+          {/* Cápsula nombre invitado */}
           <div
-            className="inline-block px-7 py-2 rounded-full text-texto font-display italic text-lg"
+            className="inline-flex items-center justify-center px-8 py-2.5 rounded-full font-display italic text-lg"
             style={{
-              background: 'rgba(255,255,255,.5)',
-              border: '1.5px solid rgba(255,255,255,.8)',
-              backdropFilter: 'blur(4px)',
-              minWidth: '180px',
+              background: 'rgba(255,255,255,.45)',
+              border: '1.5px solid rgba(255,255,255,.85)',
+              backdropFilter: 'blur(6px)',
+              minWidth: '200px',
+              color: '#5a3550',
             }}
           >
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
 
-          {/* Arco inferior */}
+          {/* Arco ondulado */}
           <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
-            <svg viewBox="0 0 480 48" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-              <path d="M0,0 C120,48 360,48 480,0 L480,48 L0,48 Z" fill="#fff8f2" />
+            <svg viewBox="0 0 480 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <path d="M0,0 C80,56 160,56 240,28 C320,0 400,56 480,28 L480,56 L0,56 Z" fill="#fff8f2"/>
             </svg>
           </div>
         </div>
 
         {/* ── Cuerpo ── */}
-        <div className="px-8 pt-10 pb-6 text-center">
+        <div className="px-8 pt-8 pb-6 text-center">
 
-          <p className="text-xs tracking-[4px] uppercase font-bold text-suave mb-1">
+          <p className="text-[10px] tracking-[5px] uppercase font-bold text-suave mb-2">
             Celebra con nosotros
           </p>
 
-          {/* Número grande */}
+          {/* Número */}
           <div
             className="font-display font-semibold leading-none animate-pulse-soft"
             style={{
-              fontSize: '7rem',
-              background: 'linear-gradient(135deg, #f4a7be 0%, #d8b4e2 100%)',
+              fontSize: '8rem',
+              background: 'linear-gradient(135deg, #f4a7be 0%, #c9a0d8 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              filter: 'drop-shadow(0 4px 10px rgba(200,120,160,.2))',
+              filter: 'drop-shadow(0 6px 14px rgba(200,120,160,.25))',
             }}
           >
             2
           </div>
 
-          <p
-            className="font-script text-2xl -mt-2 mb-1"
-            style={{ color: '#b890cc' }}
-          >
+          <p className="font-script text-2xl -mt-3 mb-1" style={{ color: '#b890cc' }}>
             añitos de
           </p>
 
           <h1
-            className="font-script animate-shimmer mb-6"
-            style={{ fontSize: '3.4rem', color: '#5a3550', lineHeight: 1 }}
+            className="font-script animate-shimmer"
+            style={{ fontSize: '3.6rem', color: '#5a3550', lineHeight: 1.05 }}
           >
             Zoe Ximena
           </h1>
 
-          {/* Divisor ornamental */}
-          <Divisor />
+          {/* Ornato central */}
+          <div className="flex justify-center my-4">
+            <OrnatoSVG />
+          </div>
 
-          {/* Info */}
-          <div className="grid grid-cols-2 gap-3 mt-5">
+          {/* ── Cards de info ── */}
+          <div className="grid grid-cols-2 gap-3 mt-1">
 
             <InfoCard bg="linear-gradient(135deg,#fde3cf,#fef0e4)" border="#f5d0b5">
-              <InfoIcon><CalendarIcon /></InfoIcon>
+              <div className="text-[#e8945a]/60 flex justify-center mb-1.5"><CalendarIcon /></div>
               <InfoLabel>Fecha</InfoLabel>
               <InfoVal>06 · 06 · 2026</InfoVal>
               <InfoSub>Sábado</InfoSub>
             </InfoCard>
 
             <InfoCard bg="linear-gradient(135deg,#fde0ea,#fce8f2)" border="#f4b8cc">
-              <InfoIcon><ClockIcon /></InfoIcon>
+              <div className="text-rosa-dark/60 flex justify-center mb-1.5"><ClockIcon /></div>
               <InfoLabel>Hora</InfoLabel>
               <InfoVal>4:00 pm</InfoVal>
               <InfoSub>¡No faltes!</InfoSub>
             </InfoCard>
 
-            <InfoCard
-              bg="linear-gradient(135deg,#eaf0fd,#dce8fb)"
-              border="#c5d8f8"
-              full
+            {/* Ubicación — clickeable → Google Maps */}
+            <a
+              href={MAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="col-span-2 rounded-2xl p-4 text-center block transition-all hover:-translate-y-1 hover:shadow-md group"
+              style={{
+                background: 'linear-gradient(135deg,#eaf0fd,#dce8fb)',
+                border: '1.5px solid #c5d8f8',
+              }}
             >
-              <InfoIcon><PinIcon /></InfoIcon>
-              <InfoLabel>Lugar</InfoLabel>
-              <InfoVal>Santiago Tezontlale</InfoVal>
-              <InfoSub>Col. Cuauhtémoc · Calle Texcaltitlapa</InfoSub>
-            </InfoCard>
+              <div className="text-blue-400/70 flex justify-center mb-1.5 transition-transform group-hover:scale-110">
+                <PinIcon />
+              </div>
+              <p className="text-[10px] tracking-[3px] uppercase font-bold text-suave mb-1">Lugar</p>
+              <p className="font-display font-semibold text-texto" style={{ fontSize: '1.05rem' }}>
+                Santiago Tezontlale
+              </p>
+              <p className="text-xs text-suave mt-0.5">Col. Cuauhtémoc · Calle Texcaltitlapa</p>
+              <p className="text-[10px] text-blue-400 mt-1.5 tracking-wide font-semibold uppercase">
+                Ver en mapa →
+              </p>
+            </a>
 
           </div>
 
-          {/* Divisor inferior */}
-          <Divisor className="mt-5" />
+          {/* Divisor */}
+          <div className="flex items-center gap-3 mt-5">
+            <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, #f4a7be, transparent)' }} />
+            <DiamondSVG />
+            <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, #f4a7be, transparent)' }} />
+          </div>
 
         </div>
 
         {/* ── Footer ── */}
         <div
           className="px-8 py-5 text-center"
-          style={{ background: 'linear-gradient(135deg, #fde0ea, #f4a7be 80%)' }}
+          style={{ background: 'linear-gradient(135deg, #fde0ea 0%, #f4a7be 80%)' }}
         >
-          <p className="font-script text-2xl text-texto">
+          <p className="font-script text-[1.6rem] text-texto leading-tight">
             ¡Te esperamos con mucho amor!
           </p>
-          <p className="text-xs tracking-widest text-texto/60 mt-1 uppercase font-semibold">
+          <p className="text-[10px] tracking-[3px] text-texto/55 mt-1.5 uppercase font-bold">
             Con cariño · La familia de Zoe Ximena
           </p>
-
-          {/* Ornamento floral inferior */}
-          <div className="flex justify-center mt-3 opacity-40">
-            <OrnatoSVG />
+          <div className="flex justify-center mt-3 opacity-35">
+            <OrnatoSVG wide />
           </div>
         </div>
 
       </div>
+      {/* ═══════════════ FIN TARJETA ═══════════════ */}
+
+      {/* ── Botones de acción ── */}
+      <div className="flex gap-3">
+
+        {/* Descargar */}
+        <button
+          onClick={handleDownload}
+          disabled={downloading}
+          className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm tracking-wide transition-all active:scale-95 disabled:opacity-60"
+          style={{
+            background: downloading
+              ? '#e0c4d0'
+              : 'linear-gradient(135deg, #f4a7be, #d8b4e2)',
+            color: '#5a3550',
+            boxShadow: '0 4px 20px rgba(244,167,190,.4)',
+          }}
+        >
+          <DownloadIcon />
+          {downloading ? 'Guardando...' : 'Descargar'}
+        </button>
+
+        {/* Ver en mapa */}
+        <a
+          href={MAPS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm tracking-wide transition-all active:scale-95"
+          style={{
+            background: 'linear-gradient(135deg, #dce8fb, #c5d8f8)',
+            color: '#3a5a8a',
+            boxShadow: '0 4px 20px rgba(150,180,240,.3)',
+          }}
+        >
+          <MapIcon />
+          Ver ubicación
+        </a>
+
+      </div>
+
     </div>
   )
 }
 
 /* ── Sub-componentes ── */
 
-function Divisor({ className = '' }) {
-  return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, #f4a7be, transparent)' }} />
-      <DiamondSVG />
-      <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, #f4a7be, transparent)' }} />
-    </div>
-  )
-}
-
-function InfoCard({ bg, border, full, children }) {
+function InfoCard({ bg, border, children }) {
   return (
     <div
-      className={`rounded-2xl p-4 text-center transition-transform hover:-translate-y-1 ${full ? 'col-span-2' : ''}`}
+      className="rounded-2xl p-4 text-center transition-transform hover:-translate-y-1"
       style={{ background: bg, border: `1.5px solid ${border}` }}
     >
       {children}
@@ -170,31 +253,19 @@ function InfoCard({ bg, border, full, children }) {
   )
 }
 
-function InfoIcon({ children }) {
-  return <div className="flex justify-center mb-1 text-texto/50">{children}</div>
-}
-
 function InfoLabel({ children }) {
-  return (
-    <p className="text-[10px] tracking-[3px] uppercase font-bold text-suave mb-1">
-      {children}
-    </p>
-  )
+  return <p className="text-[10px] tracking-[3px] uppercase font-bold text-suave mb-1">{children}</p>
 }
 
 function InfoVal({ children }) {
-  return (
-    <p className="font-display font-semibold text-texto" style={{ fontSize: '1.05rem' }}>
-      {children}
-    </p>
-  )
+  return <p className="font-display font-semibold text-texto" style={{ fontSize: '1.05rem' }}>{children}</p>
 }
 
 function InfoSub({ children }) {
   return <p className="text-xs text-suave mt-0.5">{children}</p>
 }
 
-/* ── SVG Icons (sin emojis) ── */
+/* ── SVG Icons ── */
 
 function CalendarIcon() {
   return (
@@ -225,9 +296,29 @@ function PinIcon() {
   )
 }
 
-function DiamondSVG() {
+function DownloadIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="#f4a7be">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+  )
+}
+
+function MapIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+      <line x1="9" y1="3" x2="9" y2="18"/>
+      <line x1="15" y1="6" x2="15" y2="21"/>
+    </svg>
+  )
+}
+
+function DiamondSVG({ color = '#f4a7be', size = 12 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 12 12" fill={color}>
       <polygon points="6,0 12,6 6,12 0,6"/>
     </svg>
   )
@@ -252,14 +343,15 @@ function FloresSVG({ className }) {
   )
 }
 
-function OrnatoSVG() {
+function OrnatoSVG({ wide }) {
+  const w = wide ? 180 : 140
   return (
-    <svg width="140" height="18" viewBox="0 0 140 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="0"   y1="9" x2="55"  y2="9" stroke="#5a3550" strokeWidth="0.8"/>
-      <circle cx="62" cy="9" r="3" fill="#5a3550"/>
-      <circle cx="70" cy="9" r="5" fill="#5a3550"/>
-      <circle cx="78" cy="9" r="3" fill="#5a3550"/>
-      <line x1="85"  y1="9" x2="140" y2="9" stroke="#5a3550" strokeWidth="0.8"/>
+    <svg width={w} height="18" viewBox={`0 0 ${w} 18`} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="9" x2={w/2 - 22} y2="9" stroke="#5a3550" strokeWidth="0.8"/>
+      <circle cx={w/2 - 14} cy="9" r="3" fill="#5a3550"/>
+      <circle cx={w/2}      cy="9" r="5" fill="#5a3550"/>
+      <circle cx={w/2 + 14} cy="9" r="3" fill="#5a3550"/>
+      <line x1={w/2 + 22} y1="9" x2={w} y2="9" stroke="#5a3550" strokeWidth="0.8"/>
     </svg>
   )
 }
