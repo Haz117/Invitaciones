@@ -3,7 +3,7 @@ import html2canvas from 'html2canvas'
 
 /* ── Configuración rápida ── */
 const MAPS_URL      = 'https://www.google.com/maps?q=20.1559011,-99.1208532&z=17&hl=es'
-const WHATSAPP_NUM  = '521XXXXXXXXXX'   // ← cambia por el número de la mamá (con código de país)
+const WHATSAPP_NUM  = '527736802190'
 const PARTY_DATE    = new Date('2026-06-06T16:00:00')
 const PHOTO_URL     = null               // ← pon aquí la URL de una foto de Zoe, o déjalo en null
 
