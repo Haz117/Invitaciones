@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import html2canvas from 'html2canvas'
+import { toPng } from 'html-to-image'
 
 /* ── Configuración rápida ── */
 const MAPS_URL      = 'https://www.google.com/maps?q=20.1559011,-99.1208532&z=17&hl=es'
@@ -53,32 +53,24 @@ export default function Invitation() {
     setDownloading(true)
     try {
       await document.fonts.ready
-      const canvas = await html2canvas(cardRef.current, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#fff8f2',
-        logging: false,
-        onclone: (doc) => {
-          // Asegura que las fuentes estén cargadas en el clon
-          doc.querySelectorAll('*').forEach(el => {
-            el.style.fontDisplay = 'block'
-          })
-        },
-      })
+
       const fileName = tempName
         ? `invitacion-zoe-${tempName.toLowerCase().replace(/\s+/g, '-')}.png`
         : 'invitacion-zoe-ximena.png'
 
-      // Convertir canvas a Blob de forma asíncrona
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
+      // Llamar dos veces: la primera carga fuentes/recursos, la segunda captura bien
+      await toPng(cardRef.current, { pixelRatio: 3 })
+      const dataUrl = await toPng(cardRef.current, {
+        pixelRatio: 3,
+        backgroundColor: '#fff8f2',
+      })
 
-      // Intentar compartir como archivo (funciona en iOS 15+ y Android Chrome)
+      const blob = await (await fetch(dataUrl)).blob()
       const file = new File([blob], fileName, { type: 'image/png' })
+
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], title: 'Invitación Zoe Ximena' })
       } else {
-        // Fallback: descarga directa con blob URL
         const url  = URL.createObjectURL(blob)
         const link = document.createElement('a')
         link.href     = url
@@ -88,6 +80,9 @@ export default function Invitation() {
         document.body.removeChild(link)
         setTimeout(() => URL.revokeObjectURL(url), 1000)
       }
+    } catch (err) {
+      alert('No se pudo generar la imagen, intenta de nuevo.')
+      console.error(err)
     } finally {
       setDownloading(false)
     }
