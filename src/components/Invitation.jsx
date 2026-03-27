@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react'
 import html2canvas from 'html2canvas'
 
-const MAPS_URL =
-  'https://www.google.com/maps/search/?api=1&query=Calle+Texcaltitlapa+Col+Cuauhtemoc+Santiago+Tezontlale'
+const MAPS_URL = 'https://www.google.com/maps?q=20.1559011,-99.1208532&z=17&hl=es'
 
 export default function Invitation() {
   const cardRef  = useRef(null)
