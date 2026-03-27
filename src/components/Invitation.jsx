@@ -327,22 +327,6 @@ export default function Invitation() {
           Confirmar asistencia
         </ActionBtn>
 
-        {/* Ver mapa */}
-        <a
-          href={MAPS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="col-span-2 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm tracking-wide transition-all active:scale-95"
-          style={{
-            background: 'linear-gradient(135deg,#dce8fb,#c5d8f8)',
-            color: '#3a5a8a',
-            boxShadow: '0 4px 20px rgba(150,180,240,.3)',
-          }}
-        >
-          <MapIcon />
-          Ver ubicación en Google Maps
-        </a>
-
       </div>
 
     </div>
