@@ -19,10 +19,11 @@ export default {
         suave:   '#b89aac',
       },
       animation: {
-        'float':   'float 6s ease-in-out infinite',
+        'float':      'float 6s ease-in-out infinite',
         'pulse-soft': 'pulseSoft 3s ease-in-out infinite',
-        'shimmer': 'shimmer 2.5s ease-in-out infinite',
-        'fadeUp':  'fadeUp .8s cubic-bezier(.34,1.56,.64,1) both',
+        'shimmer':    'shimmer 2.5s ease-in-out infinite',
+        'fadeUp':     'fadeUp .8s cubic-bezier(.34,1.56,.64,1) both',
+        'fade-slide': 'fadeSlide .55s ease both',
       },
       keyframes: {
         float: {
@@ -40,6 +41,10 @@ export default {
         fadeUp: {
           from: { opacity: '0', transform: 'translateY(30px) scale(.97)' },
           to:   { opacity: '1', transform: 'translateY(0) scale(1)'      },
+        },
+        fadeSlide: {
+          from: { opacity: '0', transform: 'translateY(22px)' },
+          to:   { opacity: '1', transform: 'translateY(0)'    },
         },
       },
     },
