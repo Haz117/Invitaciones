@@ -60,17 +60,12 @@ function useCountdown(target) {
 
 export default function Invitation() {
   const cardRef  = useRef(null)
-  const inputRef = useRef(null)
   const musicRef = useRef({ ctx: null, timeout: null, playing: false })
 
   const [downloading, setDownloading] = useState(false)
-  const [showModal,   setShowModal]   = useState(false)
-  const [guestName,   setGuestName]   = useState('')
-  const [tempName,    setTempName]    = useState('')
   const [isPlaying,   setIsPlaying]   = useState(false)
 
-  const countdown   = useCountdown(PARTY_DATE)
-  const displayName = showModal ? tempName : guestName
+  const countdown = useCountdown(PARTY_DATE)
 
   /* ── Loop de música ── */
   const playLoop = useCallback(() => {
@@ -132,36 +127,19 @@ export default function Invitation() {
     m.ctx?.close()
   }, [])
 
-  /* ── Descarga ── */
-  const openDownloadModal = () => {
-    setTempName(guestName)
-    setShowModal(true)
-    setTimeout(() => inputRef.current?.focus(), 100)
-  }
-
-  const dataUrlToBlob = (dataUrl) => {
-    const [header, data] = dataUrl.split(',')
-    const mime  = header.match(/:(.*?);/)[1]
-    const bytes = atob(data)
-    const arr   = new Uint8Array(bytes.length)
-    for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i)
-    return new Blob([arr], { type: mime })
-  }
-
   const handleDownload = async () => {
-    setGuestName(tempName)
-    setShowModal(false)
-    await new Promise(r => setTimeout(r, 400))
-    if (!cardRef.current) return
     setDownloading(true)
     try {
-      const fileName = tempName
-        ? `invitacion-zoe-${tempName.toLowerCase().replace(/\s+/g,'-')}.png`
-        : 'invitacion-zoe-ximena.png'
+      const fileName = 'invitacion-zoe-ximena.png'
       const opts = { pixelRatio:2, backgroundColor:'#fff8f2', skipFonts:true, cacheBust:true }
       await toPng(cardRef.current, opts)
       const dataUrl = await toPng(cardRef.current, opts)
-      const blob = dataUrlToBlob(dataUrl)
+      const [header, data] = dataUrl.split(',')
+      const mime  = header.match(/:(.*?);/)[1]
+      const bytes = atob(data)
+      const arr   = new Uint8Array(bytes.length)
+      for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i)
+      const blob = new Blob([arr], { type: mime })
       const url  = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url; link.download = fileName
@@ -216,19 +194,8 @@ export default function Invitation() {
             Tienes una invitación especial
           </p>
 
-          {/* Cápsula nombre */}
-          <div
-            className="animate-fade-slide inline-flex items-center justify-center px-8 py-2.5 rounded-full font-display italic text-lg mb-5"
-            style={{ background:'rgba(255,255,255,.45)', border:'1.5px solid rgba(255,255,255,.85)', backdropFilter:'blur(6px)', minWidth:200, color:'#5a3550', animationDelay:'.16s' }}
-          >
-            {displayName
-              ? displayName
-              : <span style={{ color:'rgba(90,53,80,.3)', fontStyle:'italic' }}>Tu nombre aquí</span>
-            }
-          </div>
-
           {/* Badge 2 Años */}
-          <div className="animate-fade-slide flex justify-center mb-4" style={{ animationDelay:'.22s' }}>
+          <div className="animate-fade-slide flex justify-center mb-4" style={{ animationDelay:'.16s' }}>
             <div style={{
               display:'inline-flex', alignItems:'center', gap:6,
               background:'rgba(255,255,255,.65)', backdropFilter:'blur(8px)',
@@ -243,7 +210,7 @@ export default function Invitation() {
           </div>
 
           {/* Foto con marco SVG elegante */}
-          <div className="animate-fade-slide flex justify-center" style={{ animationDelay:'.30s' }}>
+          <div className="animate-fade-slide flex justify-center" style={{ animationDelay:'.22s' }}>
             <div style={{ position:'relative', width:164, height:164 }}>
 
               {/* Anillo giratorio SVG ornamental */}
@@ -301,7 +268,7 @@ export default function Invitation() {
           <div className="animate-fade-slide flex justify-center my-3" style={{ animationDelay:'.60s' }}><OrnatoSVG /></div>
 
           {/* Cuenta regresiva */}
-          <div className="animate-fade-slide rounded-2xl p-4 mb-4" style={{ background:'linear-gradient(135deg,#fef5f0,#fde8f5)', border:'1.5px solid #f5cce0', animationDelay:'.66s' }}>
+          <div className="animate-fade-slide rounded-2xl p-4 mb-4" style={{ background:'linear-gradient(135deg,#fef5f0,#fde8f5)', border:'1.5px solid #f5cce0', animationDelay:'.58s' }}>
             <p className="text-[10px] tracking-[3px] uppercase font-bold text-suave mb-3">Faltan</p>
             <div className="grid grid-cols-4 gap-2">
               {[{val:countdown.days,label:'Días'},{val:countdown.hours,label:'Horas'},{val:countdown.minutes,label:'Minutos'},{val:countdown.seconds,label:'Segundos'}].map(({val,label})=>(
@@ -316,7 +283,7 @@ export default function Invitation() {
           </div>
 
           {/* Cards info */}
-          <div className="animate-fade-slide grid grid-cols-2 gap-3" style={{ animationDelay:'.74s' }}>
+          <div className="animate-fade-slide grid grid-cols-2 gap-3" style={{ animationDelay:'.66s' }}>
             <InfoCard bg="linear-gradient(135deg,#fde3cf,#fef0e4)" border="#f5d0b5">
               <div className="text-[#e8945a]/60 flex justify-center mb-1.5"><CalendarIcon /></div>
               <InfoLabel>Fecha</InfoLabel><InfoVal>06 · 06 · 2026</InfoVal><InfoSub>Sábado</InfoSub>
@@ -336,7 +303,7 @@ export default function Invitation() {
             </a>
           </div>
 
-          <div className="animate-fade-slide flex items-center gap-3 mt-4" style={{ animationDelay:'.80s' }}>
+          <div className="animate-fade-slide flex items-center gap-3 mt-4" style={{ animationDelay:'.72s' }}>
             <div className="flex-1 h-px" style={{ background:'linear-gradient(to right,transparent,#f4a7be,transparent)' }} />
             <DiamondSVG />
             <div className="flex-1 h-px" style={{ background:'linear-gradient(to right,#f4a7be,transparent)' }} />
@@ -344,7 +311,7 @@ export default function Invitation() {
         </div>
 
         {/* Footer */}
-        <div className="animate-fade-slide px-8 py-5 text-center" style={{ background:'linear-gradient(135deg,#fde0ea 0%,#f4a7be 80%)', animationDelay:'.86s' }}>
+        <div className="animate-fade-slide px-8 py-5 text-center" style={{ background:'linear-gradient(135deg,#fde0ea 0%,#f4a7be 80%)', animationDelay:'.78s' }}>
           <p className="font-script text-[1.7rem] text-texto leading-tight">¡Te esperamos con mucho amor!</p>
           <p className="text-[10px] tracking-[3px] text-texto/55 mt-1.5 uppercase font-bold">Con cariño · La familia de Zoe Ximena</p>
           <div className="flex justify-center mt-3 opacity-35"><OrnatoSVG wide /></div>
@@ -352,8 +319,8 @@ export default function Invitation() {
       </div>
 
       {/* ── BOTONES ── */}
-      <div className="animate-fade-slide grid grid-cols-2 gap-3" style={{ animationDelay:'.92s' }}>
-        <ActionBtn onClick={openDownloadModal} disabled={downloading} gradient="linear-gradient(135deg,#f4a7be,#d8b4e2)" shadow="rgba(244,167,190,.45)" color="#5a3550">
+      <div className="animate-fade-slide grid grid-cols-2 gap-3" style={{ animationDelay:'.84s' }}>
+        <ActionBtn onClick={handleDownload} disabled={downloading} gradient="linear-gradient(135deg,#f4a7be,#d8b4e2)" shadow="rgba(244,167,190,.45)" color="#5a3550">
           <DownloadIcon />{downloading ? 'Guardando...' : 'Descargar'}
         </ActionBtn>
         <ActionBtn onClick={handleShare} gradient="linear-gradient(135deg,#d8b4e2,#c9a0d8)" shadow="rgba(200,160,220,.4)" color="#4a2860">
@@ -366,39 +333,6 @@ export default function Invitation() {
           <MusicIcon playing={isPlaying} />{isPlaying ? 'Pausar música 🎵' : 'Reproducir música 🎵'}
         </ActionBtn>
       </div>
-
-      {/* ── MODAL ── */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-6"
-          style={{ background:'rgba(90,53,80,.45)', backdropFilter:'blur(6px)' }}
-          onClick={(e) => e.target === e.currentTarget && setShowModal(false)}>
-          <div className="w-full max-w-xs rounded-3xl overflow-hidden animate-fadeUp" style={{ background:'#fff8f2', boxShadow:'0 20px 60px rgba(180,100,130,.3)' }}>
-            <div className="px-6 pt-6 pb-4 text-center" style={{ background:'linear-gradient(135deg,#fde0ea,#f4a7be)' }}>
-              <p className="font-script text-3xl text-texto">¿Cuál es tu nombre?</p>
-              <p className="text-xs text-texto/60 mt-1 tracking-wide">Aparecerá en tu invitación personalizada</p>
-            </div>
-            <div className="px-6 py-5">
-              {tempName && (
-                <div style={{ background:'linear-gradient(135deg,rgba(253,224,234,.6),rgba(244,167,190,.2))', border:'1.5px solid rgba(244,167,190,.5)', borderRadius:14, padding:'8px 16px', marginBottom:14, textAlign:'center' }}>
-                  <p style={{ fontSize:10, color:'rgba(90,53,80,.45)', letterSpacing:3, textTransform:'uppercase', marginBottom:3 }}>Vista previa</p>
-                  <p style={{ fontFamily:'Cormorant Garamond,serif', fontStyle:'italic', fontSize:'1.25rem', color:'#5a3550' }}>{tempName}</p>
-                </div>
-              )}
-              <input ref={inputRef} type="text" value={tempName} onChange={(e)=>setTempName(e.target.value)}
-                onKeyDown={(e)=>e.key==='Enter'&&handleDownload()} placeholder="Escribe tu nombre..."
-                className="w-full rounded-2xl px-4 py-3 text-center font-display italic text-lg outline-none"
-                style={{ background:'linear-gradient(135deg,#fde0ea,#fce8f2)', border:'1.5px solid #f4b8cc', color:'#5a3550' }}/>
-              <div className="flex gap-3 mt-4">
-                <button onClick={()=>setShowModal(false)} className="flex-1 py-3 rounded-2xl font-bold text-sm transition-all active:scale-95" style={{ background:'#f5e8da', color:'#9a7a8e' }}>Cancelar</button>
-                <button onClick={handleDownload} className="flex-1 py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95"
-                  style={{ background:'linear-gradient(135deg,#f4a7be,#d8b4e2)', color:'#5a3550', boxShadow:'0 4px 16px rgba(244,167,190,.4)' }}>
-                  <DownloadIcon />Guardar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
