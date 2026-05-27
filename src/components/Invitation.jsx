@@ -167,69 +167,69 @@ export default function Invitation() {
   }
 
   return (
-    <div className="animate-fadeUp relative z-10 w-full max-w-sm mx-auto flex flex-col gap-4">
+    <div className="animate-fadeUp relative z-10 w-full max-w-md mx-auto flex flex-col gap-5">
 
       {/* ═══════════ TARJETA ═══════════ */}
       <div
         ref={cardRef}
-        className="rounded-3xl overflow-hidden"
-        style={{ background:'#fff8f2', boxShadow:'0 4px 0 #f4a7be, 0 8px 0 #fde0ea, 0 24px 80px rgba(180,100,130,.22)' }}
+        className="rounded-[32px] overflow-hidden"
+        style={{ background:'#fff8f2', boxShadow:'0 8px 0 rgba(244,167,190,.3), 0 16px 0 rgba(253,224,234,.25), 0 32px 80px rgba(180,100,130,.2)' }}
       >
 
         {/* ── HEADER ── */}
         <div
-          className="relative px-8 pt-8 pb-20 text-center"
-          style={{ background:'linear-gradient(160deg,#fde0ea 0%,#f4a7be 55%,#d8b4e2 100%)' }}
+          className="relative px-6 pt-8 pb-20 text-center"
+          style={{ background:'linear-gradient(160deg,#fde0ea 0%,#f4a7be 50%,#d8b4e2 100%)' }}
         >
-          <FloresSVG className="absolute top-3 left-4 opacity-20 w-14" />
-          <FloresSVG className="absolute top-3 right-4 opacity-20 w-14 scale-x-[-1]" />
+          <FloresSVG className="absolute top-2 left-3 opacity-15 w-10" />
+          <FloresSVG className="absolute top-2 right-3 opacity-15 w-10 scale-x-[-1]" />
 
-          <div className="animate-fade-slide flex items-center gap-2 mb-4 opacity-50" style={{ animationDelay:'0s' }}>
-            <div className="flex-1 h-px bg-white/70" />
-            <DiamondSVG color="white" size={8} /><DiamondSVG color="white" size={5} /><DiamondSVG color="white" size={8} />
-            <div className="flex-1 h-px bg-white/70" />
+          <div className="animate-fade-slide flex items-center gap-2 mb-3 opacity-45" style={{ animationDelay:'0s' }}>
+            <div className="flex-1 h-px bg-white/65" />
+            <DiamondSVG color="white" size={7} /><DiamondSVG color="white" size={5} /><DiamondSVG color="white" size={7} />
+            <div className="flex-1 h-px bg-white/65" />
           </div>
 
-          <p className="animate-fade-slide text-[10px] tracking-[5px] uppercase font-bold mb-3" style={{ color:'rgba(90,53,80,.55)', animationDelay:'.08s' }}>
+          <p className="animate-fade-slide text-[9px] tracking-[4.5px] uppercase font-bold mb-3" style={{ color:'rgba(90,53,80,.6)', animationDelay:'.08s', letterSpacing:'0.05em' }}>
             Tienes una invitación especial
           </p>
 
           {/* Badge 2 Años */}
-          <div className="animate-fade-slide flex justify-center mb-4" style={{ animationDelay:'.16s' }}>
+          <div className="animate-fade-slide flex justify-center mb-4" style={{ animationDelay:'.14s' }}>
             <div style={{
-              display:'inline-flex', alignItems:'center', gap:6,
-              background:'rgba(255,255,255,.65)', backdropFilter:'blur(8px)',
-              border:'1.5px solid rgba(255,255,255,.9)', borderRadius:20, padding:'4px 16px',
+              display:'inline-flex', alignItems:'center', gap:5,
+              background:'rgba(255,255,255,.68)', backdropFilter:'blur(12px)',
+              border:'1.5px solid rgba(255,255,255,.88)', borderRadius:20, padding:'5px 14px',
             }}>
-              <span style={{ fontSize:13 }}>🎂</span>
-              <span style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'0.95rem', color:'#5a3550', fontWeight:600, letterSpacing:1 }}>
+              <span style={{ fontSize:11 }}>🎂</span>
+              <span style={{ fontFamily:'Cormorant Garamond,serif', fontSize:'0.85rem', color:'#5a3550', fontWeight:600, letterSpacing:0.5 }}>
                 2 Años
               </span>
-              <span style={{ fontSize:13 }}>🎂</span>
+              <span style={{ fontSize:11 }}>🎂</span>
             </div>
           </div>
 
           {/* Foto con marco SVG elegante */}
           <div className="animate-fade-slide flex justify-center" style={{ animationDelay:'.22s' }}>
-            <div style={{ position:'relative', width:164, height:164 }}>
+            <div style={{ position:'relative', width:152, height:152 }}>
 
               {/* Anillo giratorio SVG ornamental */}
-              <div style={{ position:'absolute', inset:-22, animation:'spin 18s linear infinite', pointerEvents:'none' }}>
+              <div style={{ position:'absolute', inset:-20, animation:'spin 18s linear infinite', pointerEvents:'none' }}>
                 <OrnamentRing />
               </div>
 
               {/* Halo de brillo estático */}
               <div style={{
-                position:'absolute', inset:-6, borderRadius:'50%',
+                position:'absolute', inset:-5, borderRadius:'50%',
                 background:'conic-gradient(from 0deg, #f4a7be, #d8b4e2, #fde3cf, #f9c9d8, #f4a7be)',
-                opacity:.55,
+                opacity:.5,
               }} />
 
               {/* Foto */}
               <div style={{
-                position:'relative', width:164, height:164, borderRadius:'50%', overflow:'hidden',
-                border:'4px solid rgba(255,255,255,.97)',
-                boxShadow:'0 8px 32px rgba(180,100,130,.5)',
+                position:'relative', width:152, height:152, borderRadius:'50%', overflow:'hidden',
+                border:'4px solid rgba(255,255,255,.98)',
+                boxShadow:'0 8px 28px rgba(180,100,130,.38)',
               }}>
                 <img
                   src={PHOTO_URL} alt="Zoe Ximena" crossOrigin="anonymous"
@@ -248,35 +248,35 @@ export default function Invitation() {
         </div>
 
         {/* ── CUERPO ── */}
-        <div className="px-8 pt-7 pb-5 text-center">
+        <div className="px-7 pt-7 pb-5 text-center">
 
-          <p className="animate-fade-slide text-[10px] tracking-[5px] uppercase font-bold text-suave mb-1" style={{ animationDelay:'.38s' }}>
+          <p className="animate-fade-slide text-[9px] tracking-[4px] uppercase font-bold text-suave mb-1.5" style={{ animationDelay:'.38s', letterSpacing:'0.04em' }}>
             Celebra con nosotros
           </p>
 
           <div
             className="animate-fade-slide font-display font-semibold leading-none animate-pulse-soft"
-            style={{ fontSize:'8rem', background:'linear-gradient(135deg,#f4a7be 0%,#c9a0d8 100%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text', filter:'drop-shadow(0 6px 14px rgba(200,120,160,.25))', animationDelay:'.44s' }}
+            style={{ fontSize:'7rem', background:'linear-gradient(135deg,#f4a7be 0%,#c9a0d8 100%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text', filter:'drop-shadow(0 5px 12px rgba(200,120,160,.26))', animationDelay:'.44s' }}
           >2</div>
 
-          <p className="animate-fade-slide font-script text-2xl -mt-3 mb-1" style={{ color:'#b890cc', animationDelay:'.50s' }}>añitos de</p>
+          <p className="animate-fade-slide font-script text-2xl -mt-2.5 mb-1" style={{ color:'#b890cc', animationDelay:'.50s', letterSpacing:'0.02em' }}>añitos de</p>
 
-          <h1 className="animate-fade-slide font-script animate-shimmer" style={{ fontSize:'3.6rem', color:'#5a3550', lineHeight:1.05, animationDelay:'.56s' }}>
+          <h1 className="animate-fade-slide font-script animate-shimmer" style={{ fontSize:'3.2rem', color:'#5a3550', lineHeight:1.05, animationDelay:'.56s', letterSpacing:'-0.01em' }}>
             Zoe Ximena
           </h1>
 
-          <div className="animate-fade-slide flex justify-center my-3" style={{ animationDelay:'.60s' }}><OrnatoSVG /></div>
+          <div className="animate-fade-slide flex justify-center my-2.5" style={{ animationDelay:'.60s' }}><OrnatoSVG /></div>
 
           {/* Cuenta regresiva */}
-          <div className="animate-fade-slide rounded-2xl p-4 mb-4" style={{ background:'linear-gradient(135deg,#fef5f0,#fde8f5)', border:'1.5px solid #f5cce0', animationDelay:'.58s' }}>
-            <p className="text-[10px] tracking-[3px] uppercase font-bold text-suave mb-3">Faltan</p>
+          <div className="animate-fade-slide rounded-[24px] p-4 mb-4" style={{ background:'linear-gradient(135deg,#fef5f0,#fde8f5)', border:'1.5px solid #f5cce0', animationDelay:'.58s' }}>
+            <p className="text-[9px] tracking-[3px] uppercase font-bold text-suave mb-3" style={{ letterSpacing:'0.03em' }}>Faltan</p>
             <div className="grid grid-cols-4 gap-2">
               {[{val:countdown.days,label:'Días'},{val:countdown.hours,label:'Horas'},{val:countdown.minutes,label:'Minutos'},{val:countdown.seconds,label:'Segundos'}].map(({val,label})=>(
                 <div key={label}>
-                  <div className="rounded-xl py-2 font-display font-semibold text-2xl leading-none mb-1" style={{ background:'linear-gradient(135deg,#f4a7be,#d8b4e2)', color:'#fff', textShadow:'0 1px 4px rgba(90,53,80,.3)' }}>
+                  <div className="rounded-[12px] py-2.5 font-display font-semibold text-xl leading-none mb-1" style={{ background:'linear-gradient(135deg,#f4a7be,#d8b4e2)', color:'#fff', textShadow:'0 2px 4px rgba(90,53,80,.25)' }}>
                     {String(val).padStart(2,'0')}
                   </div>
-                  <p className="text-[9px] tracking-wide uppercase font-bold text-suave">{label}</p>
+                  <p className="text-[8px] tracking-wide uppercase font-bold text-suave" style={{ letterSpacing:'0.02em' }}>{label}</p>
                 </div>
               ))}
             </div>
@@ -285,21 +285,21 @@ export default function Invitation() {
           {/* Cards info */}
           <div className="animate-fade-slide grid grid-cols-2 gap-3" style={{ animationDelay:'.66s' }}>
             <InfoCard bg="linear-gradient(135deg,#fde3cf,#fef0e4)" border="#f5d0b5">
-              <div className="text-[#e8945a]/60 flex justify-center mb-1.5"><CalendarIcon /></div>
+              <div className="text-[#e8945a]/60 flex justify-center mb-1"><CalendarIcon /></div>
               <InfoLabel>Fecha</InfoLabel><InfoVal>06 · 06 · 2026</InfoVal><InfoSub>Sábado</InfoSub>
             </InfoCard>
             <InfoCard bg="linear-gradient(135deg,#fde0ea,#fce8f2)" border="#f4b8cc">
-              <div className="text-rosa-dark/60 flex justify-center mb-1.5"><ClockIcon /></div>
+              <div className="text-rosa-dark/60 flex justify-center mb-1"><ClockIcon /></div>
               <InfoLabel>Hora</InfoLabel><InfoVal>4:00 pm</InfoVal><InfoSub>¡No faltes!</InfoSub>
             </InfoCard>
             <a href={MAPS_URL} target="_blank" rel="noopener noreferrer"
-              className="col-span-2 rounded-2xl p-4 text-center block transition-all hover:-translate-y-1 hover:shadow-md group"
+              className="col-span-2 rounded-xl p-3 text-center block transition-all hover:-translate-y-1 hover:shadow-md group"
               style={{ background:'linear-gradient(135deg,#eaf0fd,#dce8fb)', border:'1.5px solid #c5d8f8' }}>
-              <div className="text-blue-400/70 flex justify-center mb-1.5 transition-transform group-hover:scale-110"><PinIcon /></div>
-              <p className="text-[10px] tracking-[3px] uppercase font-bold text-suave mb-1">Lugar</p>
-              <p className="font-display font-semibold text-texto" style={{ fontSize:'1.05rem' }}>Santiago Tezontlale, Hgo.</p>
-              <p className="text-xs text-suave mt-0.5">Av. Texcatlipoca, Col. Cuauhtémoc</p>
-              <p className="text-[10px] text-blue-400 mt-1.5 tracking-wide font-semibold uppercase">Ver en mapa →</p>
+              <div className="text-blue-400/70 flex justify-center mb-1 transition-transform group-hover:scale-110"><PinIcon /></div>
+              <p className="text-[8px] tracking-[2px] uppercase font-bold text-suave mb-0.5">Lugar</p>
+              <p className="font-display font-semibold text-texto text-sm">Santiago Tezontlale, Hgo.</p>
+              <p className="text-[11px] text-suave mt-0.5">Av. Texcatlipoca, Col. Cuauhtémoc</p>
+              <p className="text-[8px] text-blue-400 mt-1 tracking-wide font-semibold uppercase">Ver en mapa →</p>
             </a>
           </div>
 
@@ -311,25 +311,25 @@ export default function Invitation() {
         </div>
 
         {/* Footer */}
-        <div className="animate-fade-slide px-8 py-5 text-center" style={{ background:'linear-gradient(135deg,#fde0ea 0%,#f4a7be 80%)', animationDelay:'.78s' }}>
-          <p className="font-script text-[1.7rem] text-texto leading-tight">¡Te esperamos con mucho amor!</p>
-          <p className="text-[10px] tracking-[3px] text-texto/55 mt-1.5 uppercase font-bold">Con cariño · La familia de Zoe Ximena</p>
+        <div className="animate-fade-slide px-7 py-5 text-center" style={{ background:'linear-gradient(135deg,#fde0ea 0%,#f4a7be 80%)', animationDelay:'.78s' }}>
+          <p className="font-script text-lg text-texto leading-tight">¡Te esperamos con mucho amor!</p>
+          <p className="text-[9px] tracking-[3px] text-texto/60 mt-2 uppercase font-bold" style={{ letterSpacing:'0.03em' }}>Con cariño · La familia de Zoe Ximena</p>
           <div className="flex justify-center mt-3 opacity-35"><OrnatoSVG wide /></div>
         </div>
       </div>
 
       {/* ── BOTONES ── */}
       <div className="animate-fade-slide grid grid-cols-2 gap-3" style={{ animationDelay:'.84s' }}>
-        <ActionBtn onClick={handleDownload} disabled={downloading} gradient="linear-gradient(135deg,#f4a7be,#d8b4e2)" shadow="rgba(244,167,190,.45)" color="#5a3550">
+        <ActionBtn onClick={handleDownload} disabled={downloading} gradient="linear-gradient(135deg,#f4a7be,#d8b4e2)" shadow="rgba(244,167,190,.5)" color="#5a3550">
           <DownloadIcon />{downloading ? 'Guardando...' : 'Descargar'}
         </ActionBtn>
-        <ActionBtn onClick={handleShare} gradient="linear-gradient(135deg,#d8b4e2,#c9a0d8)" shadow="rgba(200,160,220,.4)" color="#4a2860">
+        <ActionBtn onClick={handleShare} gradient="linear-gradient(135deg,#d8b4e2,#c9a0d8)" shadow="rgba(200,160,220,.45)" color="#fff">
           <ShareIcon />Compartir
         </ActionBtn>
-        <ActionBtn onClick={handleWhatsApp} gradient="linear-gradient(135deg,#b8e6c8,#8ed4a8)" shadow="rgba(100,200,140,.35)" color="#1a5c36" full>
+        <ActionBtn onClick={handleWhatsApp} gradient="linear-gradient(135deg,#b8e6c8,#8ed4a8)" shadow="rgba(100,200,140,.4)" color="#fff" full>
           <WhatsAppIcon />Confirmar asistencia
         </ActionBtn>
-        <ActionBtn onClick={toggleMusic} gradient={isPlaying ? 'linear-gradient(135deg,#fde0ea,#f4a7be)' : 'linear-gradient(135deg,#fef0e4,#fde3cf)'} shadow="rgba(244,167,190,.3)" color="#5a3550" full>
+        <ActionBtn onClick={toggleMusic} gradient={isPlaying ? 'linear-gradient(135deg,#fde0ea,#f4a7be)' : 'linear-gradient(135deg,#fef0e4,#fde3cf)'} shadow="rgba(244,167,190,.35)" color="#5a3550" full>
           <MusicIcon playing={isPlaying} />{isPlaying ? 'Pausar música 🎵' : 'Reproducir música 🎵'}
         </ActionBtn>
       </div>
@@ -401,22 +401,22 @@ function OrnamentRing() {
 function ActionBtn({ onClick, disabled, gradient, shadow, color, full, children }) {
   return (
     <button onClick={onClick} disabled={disabled}
-      className={`${full?'col-span-2':''} flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm tracking-wide transition-all active:scale-95 disabled:opacity-60`}
-      style={{ background:disabled?'#e0c4d0':gradient, color, boxShadow:`0 4px 20px ${shadow}` }}>
+      className={`${full?'col-span-2':''} flex items-center justify-center gap-2.5 py-4 rounded-[18px] font-bold text-sm tracking-wide transition-all active:scale-95 disabled:opacity-60 hover:shadow-lg`}
+      style={{ background:disabled?'#e0c4d0':gradient, color, boxShadow:`0 6px 24px ${shadow}`, letterSpacing:'0.02em' }}>
       {children}
     </button>
   )
 }
 function InfoCard({ bg, border, children }) {
   return (
-    <div className="rounded-2xl p-4 text-center transition-transform hover:-translate-y-1" style={{ background:bg, border:`1.5px solid ${border}` }}>
+    <div className="rounded-[20px] p-4 text-center transition-transform hover:-translate-y-1.5" style={{ background:bg, border:`1.5px solid ${border}` }}>
       {children}
     </div>
   )
 }
-function InfoLabel({ children }) { return <p className="text-[10px] tracking-[3px] uppercase font-bold text-suave mb-1">{children}</p> }
-function InfoVal({ children })   { return <p className="font-display font-semibold text-texto" style={{ fontSize:'1.05rem' }}>{children}</p> }
-function InfoSub({ children })   { return <p className="text-xs text-suave mt-0.5">{children}</p> }
+function InfoLabel({ children }) { return <p className="text-[9px] tracking-[3px] uppercase font-bold text-suave mb-1" style={{ letterSpacing:'0.03em' }}>{children}</p> }
+function InfoVal({ children })   { return <p className="font-display font-semibold text-texto text-base">{children}</p> }
+function InfoSub({ children })   { return <p className="text-[11px] text-suave mt-1">{children}</p> }
 
 /* ── Iconos ── */
 function CalendarIcon() {
